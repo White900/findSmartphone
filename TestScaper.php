@@ -85,15 +85,15 @@ include_once('Prodotto.php');
 	//$analyticsId = scrapeIn($page, '<a href="acer-phones-59.php">Acer<br>');
 	//echo $analyticsId;
 	
+	echo("Produttori*********");
 	preg_match_all('/<a href=.+\.php>.+<br>/', $page, $matches);
-	
-	echo("Produttori************** ");
 	
 	$arrayProduttori = array();
 	
 	foreach($matches[0] as $results) {
 
 		preg_match('/href=([^"]*)\.php/', $results, $arrayLinkProduttori);
+		
 		$produttore = new Produttore(strip_tags($results), "http://www.gsmarena.com/" . $arrayLinkProduttori[1] . ".php", array());
 		
 		$arrayProduttori[] = $produttore;
@@ -101,7 +101,7 @@ include_once('Prodotto.php');
 	
 	echo("Prodotti************** ");
 	
-	for ($i = 0; $i < sizeof($arrayProduttori); $i++) {
+	for ($i = 107; $i < sizeof($arrayProduttori); $i++) {
 		
 		$pageModelli = curlGet($arrayProduttori[$i]->getUrlProduttore());
 		
@@ -114,13 +114,39 @@ include_once('Prodotto.php');
 			preg_match('/href="?([A-Za-z0-9\-\_\:\;]+)\.php"?>/', $results, $arrayLinkProdotto);
 			preg_match('/src="?([A-Za-z0-9\-\_\:\;\/\.]+)\.jpg"?/', $results, $arrayLinkImgProdotto);
 		
-			$prodotto = new Prodotto(strip_tags($results), "http://www.gsmarena.com/" . $arrayLinkProdotto[1] . ".php", $arrayLinkImgProdotto[1] . ".jpg");
+			$prodotto = new Prodotto($arrayProduttori[$i]->getNomeProduttore() ,strip_tags($results), "http://www.gsmarena.com/" . $arrayLinkProdotto[1] . ".php", $arrayLinkImgProdotto[1] . ".jpg");
 		
 			$arrayProdotti[] = $prodotto;
 		}
-	
-			print_r($arrayProdotti);
+		
+		$produttore->setListaProdotti($arrayProdotti);
+		$arrayProdotti = NULL;
+		
+		print_r($arrayProdotti);
+		
+		echo("Produttori ************** ");
+		print_r($produttore);
 			
-			sleep(5);
+		sleep(1);
+	}
+	
+	echo("Scarico caratteristiche prodotto");
+	
+	for ($x = 0; $x < sizeof($arrayProduttori); $x++) {
+		
+		for ($y = 0; $y < sizeof($arrayProduttori[$x]->getListaProdotti()); $y++) {
+			
+			$prodotto = $arrayProduttori[$x]->getListaProdotti()[$y];
+			
+			$pageCaratteristicheProdotto = curlGet($prodotto->getUrlPaginaProdotto());
+	
+			//Prezzo prodotto
+			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
+			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
+	
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getPrezzoProdotto());
+			
+			sleep(1);
+		}
 	}
 ?>

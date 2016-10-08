@@ -20,10 +20,30 @@ class Produttore {
     }
 
     
+    //-----------------	METODI GET E SET
+    
+    public function getNomeProduttore() {
+	    
+	    return $this->nomeProduttore;
+    }
+    
     public function getUrlProduttore() {
 	    
 		return $this->urlPaginaProduttore;
 	    
+    }
+    
+    public function getListaProdotti() {
+	    
+	    return $this->listaProdotti;
+    }
+    
+    public function setListaProdotti($lista) {
+	    
+	    if (isset($lista)) {
+		    
+		    $this->listaProdotti = $lista;
+	    }
     }
     
     public function __toString() {
