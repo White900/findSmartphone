@@ -88,37 +88,39 @@ include_once('Prodotto.php');
 	preg_match_all('/<a href=.+\.php>.+<br>/', $page, $matches);
 	
 	echo("Produttori************** ");
-	print_r($matches);
 	
 	$arrayProduttori = array();
 	
 	foreach($matches[0] as $results) {
 
 		preg_match('/href=([^"]*)\.php/', $results, $arrayLinkProduttori);
-		
-		$produttore = new Produttore(strip_tags($results), $arrayLinkProduttori[1] . ".php", array());
+		$produttore = new Produttore(strip_tags($results), "http://www.gsmarena.com/" . $arrayLinkProduttori[1] . ".php", array());
 		
 		$arrayProduttori[] = $produttore;
 	}
 	
-	print_r($arrayProduttori);
-	
 	echo("Prodotti************** ");
-	$pageModelli = curlGet('http://www.gsmarena.com/apple-phones-48.php');
-	$arrayProdotti = array();
 	
-	preg_match_all('/<a href="?([A-Za-z0-9\_\-\.]+)\.php"?><img src="?([A-Za-z0-9\_\.\:\/\-]+)\.jpg"? title="?([A-Za-z0-9\ \.\,\;&\-]+)"?><strong><span>([A-Za-z0-9\ \-\_\.\,\:\;]+)<\/span><\/strong><\/a><\/li>/', $pageModelli, $matchesModelli);
+	for ($i = 0; $i < sizeof($arrayProduttori); $i++) {
+		
+		$pageModelli = curlGet($arrayProduttori[$i]->getUrlProduttore());
+		
+		$arrayProdotti = array();
 	
-	foreach($matchesModelli[0] as $results) {
+		preg_match_all('/<a href="?([A-Za-z0-9\_\-\.]+)\.php"?><img src="?([A-Za-z0-9\_\.\:\/\-]+)\.jpg"? title="?([A-Za-z0-9\ \.\,\;&\-]+)"?><strong><span>([A-Za-z0-9\ \-\_\.\,\:\;]+)<\/span><\/strong><\/a><\/li>/', $pageModelli, $matchesModelli);
+	
+		foreach($matchesModelli[0] as $results) {
 		
-		preg_match('/href="?([A-Za-z0-9\-\_\:\;]+)\.php"?>/', $results, $arrayLinkProdotti);
-		preg_match('/src="?([A-Za-z0-9\-\_\:\;\/\.]+)\.jpg"?/', $results, $arrayLinkImgProdotti);
+			preg_match('/href="?([A-Za-z0-9\-\_\:\;]+)\.php"?>/', $results, $arrayLinkProdotto);
+			preg_match('/src="?([A-Za-z0-9\-\_\:\;\/\.]+)\.jpg"?/', $results, $arrayLinkImgProdotto);
 		
-		$prodotto = new Prodotto(strip_tags($results), $arrayLinkProdotti[1] . ".php", $arrayLinkImgProdotti[1] . ".php");
+			$prodotto = new Prodotto(strip_tags($results), "http://www.gsmarena.com/" . $arrayLinkProdotto[1] . ".php", $arrayLinkImgProdotto[1] . ".jpg");
 		
-		$arrayProdotti[] = $prodotto;
+			$arrayProdotti[] = $prodotto;
+		}
+	
+			print_r($arrayProdotti);
+			
+			sleep(5);
 	}
-	
-	print_r($arrayProdotti);
-
 ?>

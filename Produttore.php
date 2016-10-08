@@ -9,27 +9,26 @@ class Produttore {
 	//Metodo costruttore di Produttore
 	public function __construct($nomeProduttore, $urlPaginaProduttore, $listaProdotti) { 
 		
-		$this->$nomeProduttore = $nomeProduttore;
-		$this->$urlPaginaProduttore = $urlPaginaProduttore;
-		$this->$listaProdotti = $listaProdotti;
+		$this->nomeProduttore = $nomeProduttore;
+		$this->urlPaginaProduttore = $urlPaginaProduttore;
+		$this->listaProdotti = $listaProdotti;
 	}
 	
-	public function __set($variable, $value) {
+	public function __destruct() {
 	
-        echo 'Setto ' . $variable . ' a ' . $value;
-        $this->$variable = $value;
+      //echo 'La classe ' . __CLASS__ . " e' stata distrutta";
     }
 
-    public function __get($variable) {
     
-        if(isset($this->$variable)){
-            return $this->data[$variable];
-            
-        }
-        
-        else{
-            die('Variabile sconosciuta');
-        }
+    public function getUrlProduttore() {
+	    
+		return $this->urlPaginaProduttore;
+	    
+    }
+    
+    public function __toString() {
+	    
+	    return "Produttore: " . $this->nomeProduttore . "Url Pagina: " . $this->urlPaginaProduttore;
     }
 }
 
