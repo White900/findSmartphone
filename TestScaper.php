@@ -139,12 +139,16 @@ include_once('Prodotto.php');
 			$prodotto = $arrayProduttori[$x]->getListaProdotti()[$y];
 			
 			$pageCaratteristicheProdotto = curlGet($prodotto->getUrlPaginaProdotto());
-	
+			
+			//Data rilascio prodotto
+			preg_match('/<span class="?specs-brief-accent"?>([A-Za-z\<\>\ \=\"\-\_0-9]+)><\/i>([A-Za-z0-9\ \,]+)<\/span>/', $pageCaratteristicheProdotto, $arraDataRilascio);
+			$prodotto->setDataRilascioProdotto(strip_tags($arraDataRilascio[0]));
+			
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
 			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
 	
-			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getPrezzoProdotto());
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .  $prodotto->getPrezzoProdotto() . " ");
 			
 			sleep(1);
 		}

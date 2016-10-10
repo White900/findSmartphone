@@ -7,6 +7,7 @@ class Prodotto {
 	private $urlPaginaProdotto = "";
 	private $urlImgProdotto = "";
 	
+	private $dataRilascioProdotto = "";
 	private $prezzoProdotto = "";
 	//TODO inserire variabili per contenere le caratteristiche del prodotto
 	
@@ -40,6 +41,20 @@ class Prodotto {
 		
 		if (isset($prezzo))
 			$this->prezzoProdotto = $prezzo;
+	}
+	
+	public function setDataRilascioProdotto($data) {
+		
+		if (isset($data))
+			$this->dataRilascioProdotto = $data;
+	}
+	
+	public function getDataRilascioProdotto() {
+		
+		if (isset($this->dataRilascioProdotto)) {
+			
+			return $this->dataRilascioProdotto;
+		}
 	}
 	
 	public function getPrezzoProdotto() {
