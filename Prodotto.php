@@ -9,7 +9,11 @@ class Prodotto {
 	
 	private $dataRilascioProdotto = "";
 	private $prezzoProdotto = "";
-	//TODO inserire variabili per contenere le caratteristiche del prodotto
+	private $spessoreProdotto = "";
+	private $pesoProdotto = "";
+	private $versioneSO = "";
+	private $memoria = "";
+	//TODO inserire i controlli nei vai metodi get and set stile a quello del prezzo
 	
 	//Metodo costruttore di Produttore
 	public function __construct($nomeProduttore, $nomeProdotto, $urlPaginaProdotto, $urlImgProdotto) { 
@@ -39,8 +43,18 @@ class Prodotto {
     
     public function setPrezzoProdotto($prezzo) {
 		
-		if (isset($prezzo))
+		if (isset($prezzo) && strlen($prezzo) > 0)
 			$this->prezzoProdotto = $prezzo;
+		
+		else {
+			
+			$this->prezzoProdotto = "Non disponibile";
+		}
+	}
+	
+	public function getPrezzoProdotto() {
+		
+		return $this->prezzoProdotto;
 	}
 	
 	public function setDataRilascioProdotto($data) {
@@ -57,9 +71,66 @@ class Prodotto {
 		}
 	}
 	
-	public function getPrezzoProdotto() {
+	public function setSpessoreProdotto($spessore) {
 		
-		return $this->prezzoProdotto;
+		if (isset($spessore) && strlen($spessore) > 0) {
+			
+			$this->spessoreProdotto = $spessore;
+		}
+		
+		else {
+		
+		 	$this->spessoreProdotto = "Non disponibile";
+		}
+	}
+	
+	public function getSpessoreProdotto() {
+		
+		return $this->spessoreProdotto;
+	}
+	
+	public function setPeso($peso) {
+		
+		if (isset($peso) && strlen($peso) > 0) {
+		
+			$this->peso = $peso;
+		}
+		
+		else {
+			
+			$this->peso = "Non disponibile";
+		}
+	}
+	
+	public function getPeso() {
+		
+		return $this->peso;
+	}
+	
+	public function setVersioneSO($versione) {
+		
+		$this->versioneSO = $versione;
+	}
+	
+	public function getVersioneSO() {
+		
+		if(isset($this->versioneSO)) {
+			
+			return $this->versioneSO;
+		}
+	}
+	
+	public function setMemoria($memoria) {
+		
+		$this->memoria = $memoria;
+	}
+	
+	public function getMemoria() {
+		
+		if(isset($this->memoria)) {
+			
+			return $this->memoria;
+		}
 	}
 	
 	public function getUrlPaginaProdotto() {

@@ -140,15 +140,24 @@ include_once('Prodotto.php');
 			
 			$pageCaratteristicheProdotto = curlGet($prodotto->getUrlPaginaProdotto());
 			
-			//Data rilascio prodotto
-			preg_match('/<span class="?specs-brief-accent"?>([A-Za-z\<\>\ \=\"\-\_0-9]+)><\/i>([A-Za-z0-9\ \,]+)<\/span>/', $pageCaratteristicheProdotto, $arraDataRilascio);
-			$prodotto->setDataRilascioProdotto(strip_tags($arraDataRilascio[0]));
+			//Data rilascio prodotto, spessore versione SO e memoria
+			preg_match_all('/<span class="?([A-Za-z0-9\-\_\ ]+)"?><i class="?([A-Za-z0-9\ \-\_\ \.]+)"?><\/i>([A-Za-z0-9\ \,\.\-\_\;\:]+)<\/span>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			
+			$prodotto->setDataRilascioProdotto(strip_tags($arrayCaratteristiche[0][0]));
+			$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
+			$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]);
+			$prodotto->setVersioneSO(strip_tags($arrayCaratteristiche[0][2]));
+			$prodotto->setMemoria(strip_tags($arrayCaratteristiche[0][3]));
+			
+			//Display e risoluzione, Camera, Ram e Batteria
+			preg_match_all('/<strong class="?([A-Za-z0-9\ \.\-]+)"?>([A-Za-z0-9\.\ ]+)"?([\<\/A-Za-z]+)>([A-Za-z0-9]+)/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 			
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
 			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
+			
 	
-			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .  $prodotto->getPrezzoProdotto() . " ");
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " . $prodotto->getPrezzoProdotto() . " ");
 			
 			sleep(1);
 		}
