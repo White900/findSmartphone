@@ -145,7 +145,7 @@ include_once('Prodotto.php');
 			
 			$prodotto->setDataRilascioProdotto(strip_tags($arrayCaratteristiche[0][0]));
 			$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
-			$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]);
+			$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]); 
 			$prodotto->setVersioneSO(strip_tags($arrayCaratteristiche[0][2]));
 			$prodotto->setMemoria(strip_tags($arrayCaratteristiche[0][3]));
 			
