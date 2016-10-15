@@ -101,7 +101,7 @@ include_once('Prodotto.php');
 	
 	echo("Prodotti************** ");
 	
-	for ($i = 107; $i < sizeof($arrayProduttori); $i++) {
+	for ($i = 106; $i < sizeof($arrayProduttori); $i++) {
 		
 		$pageModelli = curlGet($arrayProduttori[$i]->getUrlProduttore());
 		
@@ -119,19 +119,19 @@ include_once('Prodotto.php');
 			$arrayProdotti[] = $prodotto;
 		}
 		
+		$produttore = $arrayProduttori[$i];
+		
 		$produttore->setListaProdotti($arrayProdotti);
 		$arrayProdotti = NULL;
-		
-		print_r($arrayProdotti);
 		
 		echo("Produttori ************** ");
 		print_r($produttore);
 			
-		sleep(1);
+		sleep(5);
 	}
 	
 	echo("Scarico caratteristiche prodotto");
-	
+	echo(sizeof($arrayProduttori[0]->getListaProdotti()));
 	for ($x = 0; $x < sizeof($arrayProduttori); $x++) {
 		
 		for ($y = 0; $y < sizeof($arrayProduttori[$x]->getListaProdotti()); $y++) {
@@ -152,12 +152,17 @@ include_once('Prodotto.php');
 			//Display e risoluzione, Camera, Ram e Batteria
 			preg_match_all('/<strong class="?([A-Za-z0-9\ \.\-]+)"?>([A-Za-z0-9\.\ ]+)"?([\<\/A-Za-z]+)>([A-Za-z0-9]+)/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 			
+			$prodotto->setDisplay(strip_tags($arrayCaratteristiche[0][0]));
+			$prodotto->setCamera(strip_tags($arrayCaratteristiche[0][1]));
+			$prodotto->setRam(strip_tags($arrayCaratteristiche[0][2]));
+			$prodotto->setBatteria(strip_tags($arrayCaratteristiche[0][3]));
+			
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
 			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
 			
 	
-			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " . $prodotto->getPrezzoProdotto() . " ");
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getPrezzoProdotto() . " ");
 			
 			sleep(1);
 		}
