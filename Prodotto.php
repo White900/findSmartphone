@@ -13,6 +13,10 @@ class Prodotto {
 	private $pesoProdotto = "";
 	private $versioneSO = "";
 	private $memoria = "";
+	private $display = "";
+	private $camera = "";
+	private $ram = "";
+	private $batteria = "";
 	//TODO inserire i controlli nei vai metodi get and set stile a quello del prezzo
 	
 	//Metodo costruttore di Produttore
@@ -122,7 +126,8 @@ class Prodotto {
 	
 	public function setMemoria($memoria) {
 		
-		$this->memoria = $memoria;
+		if (isset($memoria))
+			$this->memoria = $memoria;
 	}
 	
 	public function getMemoria() {
@@ -130,6 +135,66 @@ class Prodotto {
 		if(isset($this->memoria)) {
 			
 			return $this->memoria;
+		}
+	}
+	
+	public function setDisplay($display) {
+		
+		if (isset($display))
+			$this->display = $display;
+	}
+	
+	public function getDisplay() {
+		
+		if (isset($this->display))
+			return $this->display;
+	}
+	
+	public function setCamera($camera) {
+		
+		if(isset($camera)) {
+			
+			$this->camera = $camera;
+		}
+	}
+	
+	public function getCamera() {
+		
+		if(isset($this->camera)) {
+			
+			return $this->camera;
+		}
+	}
+	
+	public function setRam($ram) {
+		
+		if(isset($ram)) {
+			
+			$this->ram = $ram;
+		}
+	}
+	
+	public function getRam() {
+		
+		if(isset($this->ram)) {
+			
+			return $this->ram;
+		}
+	}
+	
+	public function setBatteria($batteria) {
+		
+		if(isset($batteria)) {
+			
+			$this->batteria = $batteria;
+		}
+	}
+	
+	public function getBatteria() {
+		
+		if(isset($this->batteria)) {
+			
+			return $this->batteria;
 		}
 	}
 	
