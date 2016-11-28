@@ -18,6 +18,7 @@ class Prodotto {
 	private $ram = "";
 	private $batteria = "";
 	private $speedData = "";
+	private $lte = "";
 	//TODO inserire i controlli nei vai metodi get and set stile a quello del prezzo
 
 	//Metodo costruttore di Produttore
@@ -230,6 +231,27 @@ class Prodotto {
 	public function getUrlPaginaProdotto() {
 
 		return $this->urlPaginaProdotto;
+	}
+
+	public function getLTE() {
+
+		if (isset($this->lte)) {
+
+			return $this->lte;
+		}
+	}
+
+	public function setLTE($lte) {
+
+		if (isset($lte)) {
+
+			$this->lte = $lte;
+		}
+
+		else {
+
+			$this->lte = "Non disponibile";
+		}
 	}
 }
 

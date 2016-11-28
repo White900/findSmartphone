@@ -159,16 +159,13 @@ include_once('Prodotto.php');
 
 			//Presenza di LTE
 			preg_match_all('/<td class="?nfo"?>([A-Za-z0-9\ \,\.\(\)]+)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
-
-			for ($i=0; $i < sizeof($arrayCaratteristiche); $i++) {
-				echo " #@# " . $arrayCaratteristiche[0][$i] . " #@# ";
-			}
+			$prodotto->setLTE(strip_tags($arrayCaratteristiche[0][1]));
 
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
 			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
 
-			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getPrezzoProdotto() . " ");
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getPrezzoProdotto() . " - " . $prodotto->getLTE() . " ");
 
 			sleep(1);
 		}
