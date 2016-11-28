@@ -140,8 +140,6 @@ include_once('Prodotto.php');
 
 			$pageCaratteristicheProdotto = curlGet($prodotto->getUrlPaginaProdotto());
 
-			echo " ### " . $pageCaratteristicheProdotto . " ### ";
-
 			//Data rilascio prodotto, spessore versione SO e memoria
 			preg_match_all('/<span class="?([A-Za-z0-9\-\_\ ]+)"?><i class="?([A-Za-z0-9\ \-\_\ \.]+)"?><\/i>([A-Za-z0-9\ \,\.\-\_\;\:]+)<\/span>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 
@@ -159,9 +157,12 @@ include_once('Prodotto.php');
 			$prodotto->setRam(strip_tags($arrayCaratteristiche[0][2]));
 			$prodotto->setBatteria(strip_tags($arrayCaratteristiche[0][3]));
 
-			//Da controllare perché questa esperessione regolare raccoglie molti dati dalla pagina del prodotto
-			//preg_match_all('/<td class="?ttl"?><a href="?([A-Za-z0-9\.\?\=]+)"?>([A-Za-z0-9\.\,\-\_]+)<\/a><\/td>\n<td class="?nfo"?>([A-Za-z0-9\ \.\-\_\,]+)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			//Presenza di LTE
+			preg_match_all('/<td class="?nfo"?>([A-Za-z0-9\ \,\.\(\)]+)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 
+			for ($i=0; $i < sizeof($arrayCaratteristiche); $i++) {
+				echo " #@# " . $arrayCaratteristiche[0][$i] . " #@# ";
+			}
 
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
