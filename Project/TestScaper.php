@@ -143,6 +143,9 @@ include_once('Prodotto.php');
 			//Data rilascio prodotto, spessore versione SO e memoria
 			preg_match_all('/<span class="?([A-Za-z0-9\-\_\ ]+)"?><i class="?([A-Za-z0-9\ \-\_\ \.]+)"?><\/i>([A-Za-z0-9\ \,\.\-\_\;\:]+)<\/span>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 
+			##echo($pageCaratteristicheProdotto);
+			##echo "####";
+
 			$prodotto->setDataRilascioProdotto(strip_tags($arrayCaratteristiche[0][0]));
 			$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
 			$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]);
@@ -160,6 +163,14 @@ include_once('Prodotto.php');
 			//Presenza di LTE
 			preg_match_all('/<td class="?nfo"?>([A-Za-z0-9\ \,\.\(\)]+)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 			$prodotto->setLTE(strip_tags($arrayCaratteristiche[0][1]));
+
+			//Chip and chipset
+			preg_match_all('/<tr><td class="?ttl"?><a href="?([A-Za-z0-9\.\?\=]*)">Chipset<\/a><\/td>\R<td class="?nfo"?>([A-Za-z0-9\ ]*)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			print_r(array_values($arrayCaratteristiche));
+			
+			//Sensori
+			preg_match_all('/<td class="?ttl"?><a href="?([A-Za-z\.0-9\?\=]*)"?>Sensors<\/a><\/td>\R<td class="?nfo">([A-Za-z0-9\ \(\)\-\,]*)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			#print_r(array_values($arrayCaratteristiche));
 
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);

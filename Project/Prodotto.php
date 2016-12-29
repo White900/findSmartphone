@@ -19,6 +19,8 @@ class Prodotto {
 	private $batteria = "";
 	private $speedData = "";
 	private $lte = "";
+	private $chipset = "";
+	private $chip = "";
 	//TODO inserire i controlli nei vai metodi get and set stile a quello del prezzo
 
 	//Metodo costruttore di Produttore
@@ -253,6 +255,49 @@ class Prodotto {
 			$this->lte = "Non disponibile";
 		}
 	}
+
+	public function getChipset() {
+
+		if (isset($this->chipset)) {
+
+			return $this->chipset;
+		}
+	}
+
+	public function setChipset($chipset) {
+
+		if (isset($chipset)) {
+
+			$this->chipset = $chipset;
+		}
+
+		else {
+
+			$this->chipset = "Non disponibile";
+		}
+	}
+
+	public function getChip() {
+
+		if (isset($this->chip)) {
+
+			return $this->chip;
+		}
+	}
+
+	public function setChip($chip) {
+
+		if (isset($chip)) {
+
+			$this->chip = $chip;
+		}
+
+		else {
+
+			$this->chip = "Non disponibile";
+		}
+	}
+
 }
 
 ?>
