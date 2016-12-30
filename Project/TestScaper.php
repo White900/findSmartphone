@@ -4,8 +4,6 @@ include_once ('Produttore.php');
 include_once ('Prodotto.php');
 include_once ('Database.php');
 
-//Non giudicare un uomo prima di aver camminato 2 miglia nei suoi mocassini
-
 	function curlGet($url) {
 
 		$ch = curl_init();
