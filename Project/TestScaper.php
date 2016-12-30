@@ -4,7 +4,10 @@ include_once ('Produttore.php');
 include_once ('Prodotto.php');
 include_once ('Database.php');
 
-	function curlGet($url) {
+$database = new Database;
+$database->avviaConnessioneDB("localhost:8889", "root", "root", "FindSmartphone");
+
+function curlGet($url) {
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -183,7 +186,36 @@ include_once ('Database.php');
 
 			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getLTE() . " - " . $prodotto->getChipset() . " - " . $prodotto->getChip() . " - " . $prodotto->getSensori() . " - " . $prodotto->getPrezzoProdotto() . " - " . " ");
 
+			$punteggio = 0;
+
+			$nomeProdottoTemp = $prodotto->getNomeProdotto();
+			$nomeProduttoreTemp = $prodotto->getNomeProduttore();
+			$dataRilascioProdottoTemp = $prodotto->getDataRilascioProdotto();
+			$urlImgProdottoTemp = $prodotto->getUrlImgProdotto();
+			$pesoProdottoTemp = $prodotto->getPeso();
+			$spessoreProdottoTemp = $prodotto->getSpessoreProdotto();
+			$versioneSOTemp = $prodotto->getVersioneSO();
+			$chipsetTemp = $prodotto->getChipset();
+			$chipTemp = $prodotto->getChip();
+			$memoriaTemp = $prodotto->getMemoria();
+			$LTETemp = $prodotto->getLTE();
+			$sensoriTemp = $prodotto->getSensori();
+			$batteriaTemp = $prodotto->getBatteria();
+			$prezzoProdottoTemp = $prodotto->getPrezzoProdotto();
+			$cameraTemp = $prodotto->getCamera();
+			$ramTemp = $prodotto->getRam();
+			$displayProdottoTemp = $prodotto->getDisplay();
+			$urlPaginaProdottoTemp = $prodotto->getUrlPaginaProdotto();
+
+			$punteggioTot = "" . $punteggio;
+
+			//Inserisco tutti i prodotti all'interno della tabella Prodotto
+			$queryInsert = "INSERT INTO `Prodotto` (`NomeProdotto`, `NomeProduttore`, `DataUscita`, `UrlImg`, `PesoProdotto`, `SpessoreProdotto`, `SOProdotto`, `ChipsetProdotto`, `ChipProdotto`, `MemoriaProdotto`, `ConnessioniProdotto`, `SensoriProdotto`, `BatteriaProdotto`, `PrezzoProdotto`, `CameraProdotto`, `RamProdotto`, `DisplayProdotto`, `LinkProdotto`, `PunteggioProdotto`) VALUES ('$nomeProdottoTemp', '$nomeProduttoreTemp', '$dataRilascioProdottoTemp', '$urlImgProdottoTemp', '$pesoProdottoTemp', '$spessoreProdottoTemp', '$versioneSOTemp', '$chipsetTemp', '$chipTemp', '$memoriaTemp', '$LTETemp', '$sensoriTemp', '$batteriaTemp', '$prezzoProdottoTemp', '$cameraTemp', '$ramTemp', '$displayProdottoTemp', '$urlPaginaProdottoTemp', '$punteggioTot')";
+			$database->insertDB($queryInsert);
+
 			sleep(1);
-		}
-	}
+		}//Fine for interno
+	}//Fine for esterno
+
+$database->closeDB();
 ?>

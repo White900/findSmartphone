@@ -38,6 +38,13 @@ class Prodotto {
     }
 
     //METODI GET E SET
+		public function getUrlImgProdotto() {
+
+			if (isset($this->urlImgProdotto)) {
+
+				return $this->urlImgProdotto;
+			}
+		}
 
     public function getNomeProduttore() {
 
