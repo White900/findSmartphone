@@ -21,7 +21,7 @@ class Prodotto {
 	private $lte = "";
 	private $chipset = "";
 	private $chip = "";
-	//TODO inserire i controlli nei vai metodi get and set stile a quello del prezzo
+	private $sensori = "";
 
 	//Metodo costruttore di Produttore
 	public function __construct($nomeProduttore, $nomeProdotto, $urlPaginaProdotto, $urlImgProdotto) {
@@ -295,6 +295,27 @@ class Prodotto {
 		else {
 
 			$this->chip = "Non disponibile";
+		}
+	}
+
+	public function setSensori($sensori) {
+
+		if (isset($sensori)) {
+
+			$this->sensori = $sensori;
+		}
+
+		else {
+
+			$this->sensori = "Non disponibile";
+		}
+	}
+
+	public function getSensori() {
+
+		if (isset($this->sensori)) {
+
+			return $this->sensori;
 		}
 	}
 

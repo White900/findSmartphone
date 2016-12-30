@@ -1,7 +1,8 @@
 <?php
 
 include_once ('Produttore.php');
-include_once('Prodotto.php');
+include_once ('Prodotto.php');
+include_once ('Database.php');
 
 //Non giudicare un uomo prima di aver camminato 2 miglia nei suoi mocassini
 
@@ -164,19 +165,25 @@ include_once('Prodotto.php');
 			preg_match_all('/<td class="?nfo"?>([A-Za-z0-9\ \,\.\(\)]+)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
 			$prodotto->setLTE(strip_tags($arrayCaratteristiche[0][1]));
 
-			//Chip and chipset
+			//Chipset
 			preg_match_all('/<tr><td class="?ttl"?><a href="?([A-Za-z0-9\.\?\=]*)">Chipset<\/a><\/td>\R<td class="?nfo"?>([A-Za-z0-9\ ]*)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
-			print_r(array_values($arrayCaratteristiche));
-			
+			$prodotto->setChipset(strip_tags($arrayCaratteristiche[0][0]));
+
+			//Chip
+			preg_match_all('/<tr><td class="?ttl"?><a href="?([A-Za-z0-9\?\.\=]*)"?>CPU<\/a><\/td>\R<td class="?nfo"?>([A-Za-z0-9\-\ \.]*)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			$prodotto->setChip(strip_tags($arrayCaratteristiche[0][0]));
+
 			//Sensori
 			preg_match_all('/<td class="?ttl"?><a href="?([A-Za-z\.0-9\?\=]*)"?>Sensors<\/a><\/td>\R<td class="?nfo">([A-Za-z0-9\ \(\)\-\,]*)<\/td>/', $pageCaratteristicheProdotto, $arrayCaratteristiche);
+			$prodotto->setSensori(strip_tags($arrayCaratteristiche[0][0]));
+
 			#print_r(array_values($arrayCaratteristiche));
 
 			//Prezzo prodotto
 			preg_match('/<span class="?price"?>([\(\)A-Za-z\ 0-9]+){1}<\/span>/', $pageCaratteristicheProdotto, $arrayPrezzoProdotto);
 			$prodotto->setPrezzoProdotto(str_replace("EUR", "", str_replace(")", "", substr(strip_tags($arrayPrezzoProdotto[0]), 6))));
 
-			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getPrezzoProdotto() . " - " . $prodotto->getLTE() . " ");
+			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getLTE() . " - " . $prodotto->getChipset() . " - " . $prodotto->getChip() . " - " . $prodotto->getSensori() . " - " . $prodotto->getPrezzoProdotto() . " - " . " ");
 
 			sleep(1);
 		}
