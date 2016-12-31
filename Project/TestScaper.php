@@ -103,7 +103,7 @@ function curlGet($url) {
 
 	echo("Prodotti************** ");
 
-	for ($i = 107; $i < sizeof($arrayProduttori); $i++) {
+	for ($i = 0; $i < sizeof($arrayProduttori); $i++) {
 
 		$pageModelli = curlGet($arrayProduttori[$i]->getUrlProduttore());
 
@@ -148,9 +148,35 @@ function curlGet($url) {
 			##echo($pageCaratteristicheProdotto);
 			##echo "####";
 
+			$arrayTemp = array();
+
+			echo ("###" . count($arrayCaratteristiche));
+
 			$prodotto->setDataRilascioProdotto(strip_tags($arrayCaratteristiche[0][0]));
-			$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
-			$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]);
+
+			//Peso e Spessore
+			$arrayTemp = explode(",", strip_tags($arrayCaratteristiche[0][1]));
+			if (count($arrayTemp) >= 2) {
+
+				$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
+				$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[1]);
+			}
+
+			else if (count($arrayTemp) == 1) {
+
+				if (strpos($arrayTemp[0], 'g') !== false) {
+
+					$prodotto->setPeso(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
+					$prodotto->setSpessoreProdotto("Non disponibile");
+				}
+
+				else {
+
+					$prodotto->setSpessoreProdotto(explode(",", strip_tags($arrayCaratteristiche[0][1]))[0]);
+					$prodotto->setPeso("Non disponibile");
+				}
+			}
+
 			$prodotto->setVersioneSO(strip_tags($arrayCaratteristiche[0][2]));
 			$prodotto->setMemoria(strip_tags($arrayCaratteristiche[0][3]));
 
@@ -186,24 +212,31 @@ function curlGet($url) {
 
 			echo($prodotto->getNomeProduttore() . " - " . $prodotto->getNomeProdotto() . " - " . $prodotto->getDataRilascioProdotto() . " - " .   $prodotto->getPeso() . " - " . $prodotto->getSpessoreProdotto() . " - " . $prodotto->getVersioneSO() . " - " . $prodotto->getMemoria() . " - " .  $prodotto->getDisplay() . " - " . $prodotto->getCamera() . " - " . $prodotto->getRam() . " - " . $prodotto->getBatteria() . " - " . $prodotto->getLTE() . " - " . $prodotto->getChipset() . " - " . $prodotto->getChip() . " - " . $prodotto->getSensori() . " - " . $prodotto->getPrezzoProdotto() . " - " . " ");
 
-			$punteggio = 0;
+			$punteggio = 0.0;
 
 			$nomeProdottoTemp = $prodotto->getNomeProdotto();
 			$nomeProduttoreTemp = $prodotto->getNomeProduttore();
 			$dataRilascioProdottoTemp = $prodotto->getDataRilascioProdotto();
 			$urlImgProdottoTemp = $prodotto->getUrlImgProdotto();
 			$pesoProdottoTemp = $prodotto->getPeso();
+			$punteggio -= (float) $pesoProdottoTemp;
 			$spessoreProdottoTemp = $prodotto->getSpessoreProdotto();
+			$punteggio -= (float) $spessoreProdottoTemp;
 			$versioneSOTemp = $prodotto->getVersioneSO();
 			$chipsetTemp = $prodotto->getChipset();
 			$chipTemp = $prodotto->getChip();
 			$memoriaTemp = $prodotto->getMemoria();
+			$punteggio += (float) $memoriaTemp;
 			$LTETemp = $prodotto->getLTE();
 			$sensoriTemp = $prodotto->getSensori();
 			$batteriaTemp = $prodotto->getBatteria();
+			$punteggio += (float) $batteriaTemp;
 			$prezzoProdottoTemp = $prodotto->getPrezzoProdotto();
+			$punteggio -= (float) $prezzoProdottoTemp;
 			$cameraTemp = $prodotto->getCamera();
+			$punteggio += (float) $cameraTemp;
 			$ramTemp = $prodotto->getRam();
+			$punteggio += (float) $ramTemp;
 			$displayProdottoTemp = $prodotto->getDisplay();
 			$urlPaginaProdottoTemp = $prodotto->getUrlPaginaProdotto();
 
@@ -213,7 +246,9 @@ function curlGet($url) {
 			$queryInsert = "INSERT INTO `Prodotto` (`NomeProdotto`, `NomeProduttore`, `DataUscita`, `UrlImg`, `PesoProdotto`, `SpessoreProdotto`, `SOProdotto`, `ChipsetProdotto`, `ChipProdotto`, `MemoriaProdotto`, `ConnessioniProdotto`, `SensoriProdotto`, `BatteriaProdotto`, `PrezzoProdotto`, `CameraProdotto`, `RamProdotto`, `DisplayProdotto`, `LinkProdotto`, `PunteggioProdotto`) VALUES ('$nomeProdottoTemp', '$nomeProduttoreTemp', '$dataRilascioProdottoTemp', '$urlImgProdottoTemp', '$pesoProdottoTemp', '$spessoreProdottoTemp', '$versioneSOTemp', '$chipsetTemp', '$chipTemp', '$memoriaTemp', '$LTETemp', '$sensoriTemp', '$batteriaTemp', '$prezzoProdottoTemp', '$cameraTemp', '$ramTemp', '$displayProdottoTemp', '$urlPaginaProdottoTemp', '$punteggioTot')";
 			$database->insertDB($queryInsert);
 
-			sleep(1);
+			//Faccio dormire il bot per 3 secondi per eludere i cotrolli anti-bot
+			sleep(3);
+			
 		}//Fine for interno
 	}//Fine for esterno
 

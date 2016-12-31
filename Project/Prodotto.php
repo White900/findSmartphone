@@ -76,6 +76,11 @@ class Prodotto {
 
 		if (isset($data))
 			$this->dataRilascioProdotto = $data;
+
+		else {
+
+			$this->dataRilascioProdotto = "Non disponibile";
+		}
 	}
 
 	public function getDataRilascioProdotto() {
@@ -90,6 +95,7 @@ class Prodotto {
 
 		if (isset($spessore) && strlen($spessore) > 0) {
 
+			$spessore = str_replace("mm thickness", "", $spessore);
 			$this->spessoreProdotto = $spessore;
 		}
 
@@ -108,6 +114,7 @@ class Prodotto {
 
 		if (isset($peso) && strlen($peso) > 0) {
 
+			$peso = str_replace("g", "", $peso);
 			$this->peso = $peso;
 		}
 
@@ -124,7 +131,15 @@ class Prodotto {
 
 	public function setVersioneSO($versione) {
 
-		$this->versioneSO = $versione;
+		if (isset($versione)) {
+
+			$this->versioneSO = $versione;
+		}
+
+		else {
+
+			$this->versioneSO = "Non disponibile";
+		}
 	}
 
 	public function getVersioneSO() {
@@ -160,6 +175,11 @@ class Prodotto {
 
 		if (isset($display))
 			$this->display = $display;
+
+		else {
+
+			$this->display = "Non disponibile";
+		}
 	}
 
 	public function getDisplay() {
@@ -172,7 +192,13 @@ class Prodotto {
 
 		if(isset($camera)) {
 
+			$camera = str_replace("MP", "", $camera);
 			$this->camera = $camera;
+		}
+
+		else {
+
+			$this->camera = "Non disponibile";
 		}
 	}
 
@@ -188,7 +214,13 @@ class Prodotto {
 
 		if(isset($ram)) {
 
+			$ram = str_replace("GB", "", $ram);
 			$this->ram = $ram;
+		}
+
+		else {
+
+			$this->ram = "Non disponibile";
 		}
 	}
 
@@ -204,7 +236,13 @@ class Prodotto {
 
 		if(isset($batteria)) {
 
+			$batteria = str_replace("mAh", "", $batteria);
 			$this->batteria = $batteria;
+		}
+
+		else {
+
+			$this->batteria = "Non disponibile";
 		}
 	}
 
@@ -294,7 +332,7 @@ class Prodotto {
 
 	public function setChip($chip) {
 
-		if (isset($chip)) {
+		if (isset($chip) && (strlen($chip) > 0)) {
 
 			$this->chip = $chip;
 		}
